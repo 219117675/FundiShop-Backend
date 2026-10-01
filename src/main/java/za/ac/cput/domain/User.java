@@ -1,10 +1,10 @@
 package za.ac.cput.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import za.ac.cput.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import za.ac.cput.domain.enums.Role;
 
 import java.time.LocalDateTime;
 
@@ -29,10 +29,14 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    /**
+     * Never expose the password hash through JSON responses.
+     */
     @JsonIgnore
     @Column(nullable = false)
     private String password;
 
+    @Column
     private String phone;
 
     @Enumerated(EnumType.STRING)
@@ -40,6 +44,7 @@ public class User {
     private Role role;
 
     @Builder.Default
+    @Column(nullable = false)
     private boolean emailVerified = false;
 
     @CreationTimestamp
